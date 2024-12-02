@@ -9,22 +9,21 @@ import frc.robot.subsystems.DriveMotorSubsystem;
 
 public class DriveCmd extends Command {
 	private final DriveMotorSubsystem driveSubsystem;
-	private final XboxController controller;
+	private final XboxController driver;
 
-	public DriveCmd(DriveMotorSubsystem driveMotorSubsystem, XboxController controller) {
+	public DriveCmd(DriveMotorSubsystem driveMotorSubsystem, XboxController driver) {
 		this.driveSubsystem = driveMotorSubsystem;
-		this.controller = controller;
+		this.driver = driver;
 		this.addRequirements(this.driveSubsystem);
 	}
 
 	@Override
 	public void execute() {
-		double driveSpeed = -MathUtil.applyDeadband(this.controller.getLeftY(), Drive.DEAD_BAND) * Drive.MAX_SPEED;
-		double turnSpeed = MathUtil.applyDeadband(this.controller.getRightX(), Drive.DEAD_BAND) * Drive.MAX_TURN_SPEED;
+		double driveSpeed = -MathUtil.applyDeadband(this.driver.getLeftY(), Drive.DEAD_BAND) * Drive.MAX_SPEED;
+		double turnSpeed = MathUtil.applyDeadband(this.driver.getRightX(), Drive.DEAD_BAND) * Drive.MAX_TURN_SPEED;
 
 		double leftSpeed = driveSpeed + turnSpeed;
 		double rightSpeed = driveSpeed - turnSpeed;
-		
 
 		this.driveSubsystem.move(leftSpeed, rightSpeed);
 	}

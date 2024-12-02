@@ -14,7 +14,7 @@ public class IntakeSubsystem extends SubsystemBase implements IDashboardProvider
     private final CANSparkMax motor;
 
     public IntakeSubsystem() {
-        this.register();
+        this.registerDashboard();
         this.motor = new CANSparkMax(DeviceId.DriveMotor.IntakeSubsystem, MotorType.kBrushless);
         this.motor.setSmartCurrentLimit(30); // 電流限制
         this.motor.setInverted(true); // 是否反轉
@@ -22,8 +22,7 @@ public class IntakeSubsystem extends SubsystemBase implements IDashboardProvider
     }
 
     public void execute(double speed) {
-        this.motor.set(speed * Constants.Drive.Intake_MAX_TURN_SPEEN); // 輸出速度到
-        SmartDashboard.putNumber("Shooter Speed", speed * Constants.Drive.Intake_MAX_TURN_SPEEN); // SmartDashboard
+        this.motor.set(Constants.Drive.Intake_MAX_TURN_SPEEN); // 輸出速度到
     }
 
     public void stop() {
@@ -32,5 +31,7 @@ public class IntakeSubsystem extends SubsystemBase implements IDashboardProvider
 
     @Override
     public void putDashboard() {
+        SmartDashboard.putNumber("Intake Speed", Constants.Drive.Intake_MAX_TURN_SPEEN); // SmartDashboard
+
     }
 }

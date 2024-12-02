@@ -10,20 +10,19 @@ import frc.robot.Constants;
 import frc.robot.DeviceId;
 import frc.robot.lib.helpers.IDashboardProvider;
 
-public class ShooterSubsystem extends SubsystemBase implements IDashboardProvider{
+public class ShooterOnSubsystem extends SubsystemBase implements IDashboardProvider {
     private final CANSparkMax motor;
 
-    public ShooterSubsystem() {
+    public IntakeSubsystem() {
         this.registerDashboard();
-        this.motor = new CANSparkMax(DeviceId.DriveMotor.ShooterSubsystem, MotorType.kBrushless);
+        this.motor = new CANSparkMax(DeviceId.DriveMotor.IntakeSubsystem, MotorType.kBrushless);
         this.motor.setSmartCurrentLimit(30); // 電流限制
         this.motor.setInverted(true); // 是否反轉
-        this.motor.setIdleMode(IdleMode.kBrake); // kBrake 停止後鎖住馬達, kCoast 停止後保持慣性
+        this.motor.setIdleMode(IdleMode.kCoast); // kBrake 停止後鎖住馬達, kCoast 停止後保持慣性
     }
 
     public void execute(double speed) {
-        this.motor.set(speed * Constants.Drive.Shooter_MAX_TURN_SPEEN);
-        SmartDashboard.putNumber("shooter speed", speed * Constants.Drive.Shooter_MAX_TURN_SPEEN); // 輸出速度到 SmartDashboard
+        this.motor.set(Constants.shooterom); // 輸出速度到
     }
 
     public void stop() {
@@ -32,5 +31,7 @@ public class ShooterSubsystem extends SubsystemBase implements IDashboardProvide
 
     @Override
     public void putDashboard() {
+        SmartDashboard.putNumber("Intake Speed", Constants.Drive.Intake_MAX_TURN_SPEEN); // SmartDashboard
+
     }
 }
