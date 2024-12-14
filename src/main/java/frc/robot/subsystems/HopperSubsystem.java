@@ -10,19 +10,19 @@ import frc.robot.Constants;
 import frc.robot.DeviceId;
 import frc.robot.lib.helpers.IDashboardProvider;
 
-public class IntakeOnSubsystem extends SubsystemBase implements IDashboardProvider {
+public class HopperSubsystem extends SubsystemBase implements IDashboardProvider {
     private final CANSparkMax motor;
 
-    public IntakeOnSubsystem() {
+    public HopperSubsystem() {
         this.registerDashboard();
-        this.motor = new CANSparkMax(DeviceId.DriveMotor.IntakeOnSubsystem, MotorType.kBrushless);
+        this.motor = new CANSparkMax(DeviceId.DriveMotor.HopperSubsystem, MotorType.kBrushless);
         this.motor.setSmartCurrentLimit(30); // 電流限制
         this.motor.setInverted(true); // 是否反轉
         this.motor.setIdleMode(IdleMode.kCoast); // kBrake 停止後鎖住馬達, kCoast 停止後保持慣性
     }
 
     public void execute(double speed) {
-        this.motor.set(Constants.Drive.Intake_MAX_TURN_SPEEN); // 輸出速度到
+        this.motor.set(Constants.Drive.Hopper_MAX_SPEED); // 輸出速度到
     }
 
     public void stop() {
@@ -31,7 +31,6 @@ public class IntakeOnSubsystem extends SubsystemBase implements IDashboardProvid
 
     @Override
     public void putDashboard() {
-        SmartDashboard.putNumber("IntakeOn Speed", Constants.Drive.Intake_MAX_TURN_SPEEN); // SmartDashboard
-
+        SmartDashboard.putNumber("Hopper", Constants.Drive.Hopper_MAX_SPEED); // SmartDashboard
     }
 }

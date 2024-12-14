@@ -9,5 +9,7 @@ public class DeviceId {
         public static final int IntakeSubsystem = 5;
         public static final int ShooterSubsystem = 6;
         public static final int IntakeOnSubsystem = 7;
+        public static final int HopperSubsystem = 8;
+
     }
 }

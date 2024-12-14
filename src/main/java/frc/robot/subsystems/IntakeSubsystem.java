@@ -22,7 +22,7 @@ public class IntakeSubsystem extends SubsystemBase implements IDashboardProvider
     }
 
     public void execute(double speed) {
-        this.motor.set(Constants.Drive.Intake_MAX_TURN_SPEEN); // 輸出速度到
+        this.motor.set(speed); // 輸出速度到
     }
 
     public void stop() {
@@ -32,6 +32,5 @@ public class IntakeSubsystem extends SubsystemBase implements IDashboardProvider
     @Override
     public void putDashboard() {
         SmartDashboard.putNumber("Intake Speed", Constants.Drive.Intake_MAX_TURN_SPEEN); // SmartDashboard
-
     }
 }

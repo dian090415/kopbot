@@ -22,12 +22,11 @@ public class IntakeCmd extends Command {
 	@Override
 	public void execute() {
 		if (this.controller.getXButton()) {
-			this.intakeSubsystem.execute(Drive.Intake_MAX_TURN_SPEEN);
-		} else {
-			this.intakeSubsystem.stop();
-		}
-		if (this.controller.getBButton()) {
 			this.intakeSubsystem.execute(-Drive.Intake_MAX_TURN_SPEEN);
+		}else if(this.controller.getBButton()){
+			this.intakeSubsystem.execute(Drive.Intake_MAX_TURN_SPEEN);
+		}else{
+			this.intakeSubsystem.stop();
 		}
 	}
 
