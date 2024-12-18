@@ -17,8 +17,8 @@ public class IntakeArmSubsystem extends SubsystemBase implements IDashboardProvi
     private final CANSparkMax motor;
     private final DutyCycleEncoder encoder = new DutyCycleEncoder(0);
     private final PIDController lifterPid = new PIDController(0.01, 0, 0); // TODO
-    private final double MAX_DEGREE = 0.113161027829026;
-    private final double MIN_DEGREE = 0.780476469511912;
+    private final double MIN_DEGREE = 0.200968905024223;
+    private final double MAX_DEGREE = 0.795082619877066;
 
     public IntakeArmSubsystem() {
         this.registerDashboard();
@@ -31,10 +31,13 @@ public class IntakeArmSubsystem extends SubsystemBase implements IDashboardProvi
     public void execute(double speed) {
         if (this.encoder.getAbsolutePosition() >= this.MIN_DEGREE && this.encoder.getAbsolutePosition() <= this.MAX_DEGREE) {
             this.motor.set(speed);
-        } else if (this.encoder.getAbsolutePosition() > this.MAX_DEGREE && speed <= 0.0) {
+        } else if (this.encoder.getAbsolutePosition() > this.MAX_DEGREE && speed >= 0.0) {
             this.motor.set(speed);
-        } else if (this.encoder.getAbsolutePosition() < this.MIN_DEGREE && speed >= 0.0) {
+        } else if (this.encoder.getAbsolutePosition() < this.MIN_DEGREE && speed <= 0.0) {
             this.motor.set(speed); // 輸出速度到
+        }
+        else {
+            this.motor.set(0);
         }
     }
 

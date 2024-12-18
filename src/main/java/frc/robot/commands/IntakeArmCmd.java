@@ -24,9 +24,9 @@ public class IntakeArmCmd extends Command {
 	public void execute() {
 		double intakeArmspeed = -MathUtil.applyDeadband(this.controller.getLeftY(), Constants.Drive.DEAD_BAND) * Constants.Drive.IntakeOn_MAX_SPEED;
 		if (this.controller.getLeftBumper()) {
-			this.intakeArmSubsystem.execute(Constants.Drive.IntakeOn_MAX_SPEED);
+			this.intakeArmSubsystem.liftTo(Constants.Drive.IntakeOn_MAX_SPEED);
 		}else if(this.controller.getRightBumper()){
-			this.intakeArmSubsystem.execute(-Constants.Drive.IntakeOn_MAX_SPEED);
+			this.intakeArmSubsystem.liftTo(-Constants.Drive.IntakeOn_MAX_SPEED);
 		}else if(intakeArmspeed > 0.05 || intakeArmspeed < -0.05) {
 			this.intakeArmSubsystem.execute(intakeArmspeed);
 		}else{
