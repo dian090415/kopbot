@@ -17,8 +17,8 @@ public class IntakeArmSubsystem extends SubsystemBase implements IDashboardProvi
     private final CANSparkMax motor;
     private final DutyCycleEncoder encoder = new DutyCycleEncoder(0);
     private final PIDController lifterPid = new PIDController(0.01, 0, 0); // TODO
-    private final double MIN_DEGREE = 0.200968905024223;
-    private final double MAX_DEGREE = 0.795082619877066;
+    private final double MIN_DEGREE = -0.388300284707507;
+    private final double MAX_DEGREE =0.368803809220095;
 
     public IntakeArmSubsystem() {
         this.registerDashboard();
@@ -29,28 +29,35 @@ public class IntakeArmSubsystem extends SubsystemBase implements IDashboardProvi
     }
 
     public void execute(double speed) {
-        if (this.encoder.getAbsolutePosition() >= this.MIN_DEGREE && this.encoder.getAbsolutePosition() <= this.MAX_DEGREE) {
+        if (this.encoder.get() >= this.MIN_DEGREE &&  this.encoder.get() <= this.MAX_DEGREE) {
             this.motor.set(speed);
-        } else if (this.encoder.getAbsolutePosition() > this.MAX_DEGREE && speed >= 0.0) {
+        } else if (this.encoder.get() > this.MAX_DEGREE && speed >= 0.0) {
             this.motor.set(speed);
-        } else if (this.encoder.getAbsolutePosition() < this.MIN_DEGREE && speed <= 0.0) {
+        } else if (this.encoder.get() < this.MIN_DEGREE && speed <= 0.0) {
             this.motor.set(speed); // 輸出速度到
-        }
-        else {
+        } else {
             this.motor.set(0);
+        } 
+    }
+
+    public void up(double speed) {
+        while (true) {
+            if (this.encoder.get() - this.MIN_DEGREE >= 0.05) {
+                this.motor.set(speed);
+            } else {
+                break;
+            }
         }
     }
 
-    public void liftTo(double angle) {
-        double speed = MathUtil.applyDeadband(this.lifterPid.calculate(this.encoder.getAbsolutePosition(), angle),  Constants.Drive.DEAD_BAND);
-
-        this.execute(speed);
-        SmartDashboard.putNumber("speed", speed);
-    }
-
-    public void turnToAngle(double angle) {
-        double pidOutput = this.lifterPid.calculate(this.encoder.get(), angle);
-        this.execute(pidOutput);
+    public void down(double speed) {
+        while (true) {
+            if (this.encoder.get() - this.MAX_DEGREE <= (-0.005)) {
+                this.motor.set(speed);
+            } else {
+                break;
+            }
+        }
     }
 
     public void stop() {
@@ -59,7 +66,8 @@ public class IntakeArmSubsystem extends SubsystemBase implements IDashboardProvi
 
     @Override
     public void putDashboard() {
-//        SmartDashboard.putNumber("IntakeOn Speed", Constants.Drive.IntakeOn_MAX_SPEED); // SmartDashboard
-        SmartDashboard.putNumber("IntakeArmDEG", this.encoder.getAbsolutePosition());
+        // SmartDashboard.putNumber("IntakeOn Speed",
+        // Constants.Drive.IntakeOn_MAX_SPEED); // SmartDashboard
+        SmartDashboard.putNumber("IntakeArmDEG", this.encoder.get());
     }
 }

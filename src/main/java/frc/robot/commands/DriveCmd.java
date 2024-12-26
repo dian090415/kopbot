@@ -28,9 +28,6 @@ public class DriveCmd extends Command {
 		double rightSpeed = driveSpeed - turnSpeed;
 
 		this.driveSubsystem.move(leftSpeed, rightSpeed);
-		if(this.driver.getLeftBumper()) {
-
-		}
 	}
 
 	@Override

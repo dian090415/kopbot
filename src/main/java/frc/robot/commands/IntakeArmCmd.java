@@ -4,6 +4,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
+import frc.robot.Constants.Drive;
 import frc.robot.subsystems.IntakeArmSubsystem;
 
 public class IntakeArmCmd extends Command {
@@ -24,9 +25,9 @@ public class IntakeArmCmd extends Command {
 	public void execute() {
 		double intakeArmspeed = -MathUtil.applyDeadband(this.controller.getLeftY(), Constants.Drive.DEAD_BAND) * Constants.Drive.IntakeOn_MAX_SPEED;
 		if (this.controller.getLeftBumper()) {
-			this.intakeArmSubsystem.liftTo(Constants.Drive.IntakeOn_MAX_SPEED);
+			this.intakeArmSubsystem.up(Constants.Drive.IntakeOn_MAX_SPEED);
 		}else if(this.controller.getRightBumper()){
-			this.intakeArmSubsystem.liftTo(-Constants.Drive.IntakeOn_MAX_SPEED);
+			this.intakeArmSubsystem.down(-Constants.Drive.IntakeOn_MAX_SPEED);
 		}else if(intakeArmspeed > 0.05 || intakeArmspeed < -0.05) {
 			this.intakeArmSubsystem.execute(intakeArmspeed);
 		}else{
